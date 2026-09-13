@@ -60,6 +60,10 @@ credentials:
   useSecret: true
   existingSecret: cloud-credentials
 
+kubectl:
+  image:
+    repository: bitnami/kubectl
+    tag: "1.29"
 
 initContainers:
   - name: velero-plugin-for-aws
