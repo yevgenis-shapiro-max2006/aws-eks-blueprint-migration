@@ -1,4 +1,3 @@
-
 variable "aws_region" {
   description = "Region"
   default = "us-west-2"  
@@ -49,4 +48,13 @@ variable "namespace" {
 variable "make_gp3_default" {
   type    = bool
   default = true
+}
+
+variable "aws_access_key_id" {
+  type = string
+}
+
+variable "aws_secret_access_key" {
+  type      = string
+  sensitive = true
 }
