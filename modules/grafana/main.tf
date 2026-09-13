@@ -17,3 +17,4 @@ resource "helm_release" "grafana" {
     file("${path.module}/grafana-values.yaml")
   ]
 }
+
