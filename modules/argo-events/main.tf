@@ -11,3 +11,4 @@ resource "helm_release" "argo_events" {
   cleanup_on_fail = true
   timeout         = 900
 }
+
