@@ -3,7 +3,7 @@
 
 
 ## AWS | EKS Data Migration
-Debezium is an open source project that provides a low latency data streaming platform for change data capture (CDC). You set up and configure Debezium to monitor your databases, and then your applications consume events for each row-level change made to the database. Only committed changes are visible, so your application doesn't have to worry about transactions or changes that are rolled back. Debezium provides a single model of all change events, so your application does not have to worry about the intricacies of each kind of database management system
+Velero is an open-source Kubernetes tool for backup, restore, disaster recovery, and cluster migration.
 
 
 
