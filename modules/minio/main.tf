@@ -19,7 +19,7 @@ resource "helm_release" "minio" {
       buckets = [
         { name = "events" },
         { name = "data" },
-        { name = "loki" }
+        { name = "velero" }
 
       ]
 
