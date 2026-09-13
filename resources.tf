@@ -22,28 +22,21 @@ module "minio" {
   depends_on = [module.kong]
 }
 
-module "loki" {
-  source = "./modules/loki"
-  depends_on = [module.minio]
+module "velero" {
+  source = "./modules/velero"
+  depends_on = [module.kong]
+  
+  aws_access_key_id     = var.aws_access_key_id
+  aws_secret_access_key = var.aws_secret_access_key
 }
 
-module "promtail" {
-  source = "./modules/promtail"
-  depends_on = [module.loki]
-}
-
-module "prometheus" {
-  source = "./modules/prometheus"
-  depends_on = [module.promtail]
-}
-
-module "grafana" {
-  source = "./modules/grafana"
-  depends_on = [module.prometheus]
+module "velero-ui" {
+  source = "./modules/velero-ui"
+  depends_on = [module.velero]
 }
 
 module "ingress" {
   source = "./modules/ingress"
-  depends_on = [module.grafana]
+  depends_on = [module.velero-ui]
 }
 
