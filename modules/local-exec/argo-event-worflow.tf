@@ -24,12 +24,7 @@ resource "kubernetes_manifest" "velero_restore_events" {
       }
     }
   }
-
-  #depends_on = [
-  #  helm_release.argo_events
-  #]
 }
-
 
 
 resource "kubernetes_manifest" "velero_restore_completed_sensor" {
@@ -86,6 +81,8 @@ resource "kubernetes_manifest" "velero_restore_completed_sensor" {
                       spec = {
                         restartPolicy = "Never"
 
+                        serviceAccountName = "post-restore-validator"
+
                         containers = [
                           {
                             name  = "validation"
@@ -95,13 +92,37 @@ resource "kubernetes_manifest" "velero_restore_completed_sensor" {
                               "/bin/sh",
                               "-c",
                               <<-EOT
-                                echo "Velero restore completed"
-                                echo "Running post-restore validation..."
+                                set -e
 
+                                echo "========================================"
+                                echo "Velero restore completed"
+                                echo "========================================"
+
+                                echo
+                                echo "Checking nodes..."
+                                kubectl get nodes
+
+                                echo
+                                echo "Checking pods..."
                                 kubectl get pods -A
+
+                                echo
+                                echo "Checking deployments..."
                                 kubectl get deployments -A
 
+                                echo
+                                echo "Waiting for deployments..."
+                                kubectl wait \
+                                  --for=condition=Available \
+                                  deployment \
+                                  --all \
+                                  --all-namespaces \
+                                  --timeout=300s
+
+                                echo
+                                echo "========================================"
                                 echo "Post-restore validation completed"
+                                echo "========================================"
                               EOT
                             ]
                           }
