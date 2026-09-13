@@ -1,8 +1,8 @@
 
-resource "kubernetes_ingress_v1" "grafana" {
+resource "kubernetes_ingress_v1" "velero-ui" {
   metadata {
-    name      = "ingress-route-grafana"
-    namespace = "default"
+    name      = "ingress-route-velero-ui"
+    namespace = "velero-ui"
     annotations = {
       "konghq.com/strip-path" = "true"
       # Optional:
@@ -16,21 +16,21 @@ resource "kubernetes_ingress_v1" "grafana" {
     ingress_class_name = "kong"
 
     tls {
-      hosts       = ["logs.appflex.io"]
-      secret_name = "loki-tls"
+      hosts       = ["migration.crypterio.co"]
+      secret_name = "velero-tls"
     }
 
     rule {
-      host = "logs.appflex.io"
+      host = "migration.crypterio.co"
       http {
         path {
           path      = "/"
           path_type = "Prefix"
           backend {
             service {
-              name = "grafana"
+              name = "velero-ui"
               port {
-                number = 80
+                number = 3000
               }
             }
           }
